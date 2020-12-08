@@ -12,8 +12,8 @@ uint8_t pin;
 uint8_t isPULLUP;
 
 uint8_t debounceTimeValue = 50;
-uint16_t HoldTimevalue = 500;
-uint16_t HoldRepeatTimeValue = 500;
+uint16_t holdTimevalue = 500;
+uint16_t holdRepeatTimeValue = 500;
 
 void begin(uint8_t pinInc, uint8_t modeInc)
 {
@@ -51,4 +51,17 @@ uint8_t getState()
     debounceTime = millis();
   }
   return stateToReturn;
+}
+
+void setDebounceTime(byte InTime)
+{
+  debounceTimeValue = InTime;
+}
+void setHoldTime(byte InTime)
+{
+  holdTimeValue = InTime;
+}
+void setHoldRepeatTime(byte InTime)
+{
+  holdRepeatTimeValue = InTime;
 }

@@ -18,14 +18,14 @@ uint16_t holdRepeatTimeValue = 500;
 void begin(uint8_t pinInc, uint8_t modeInc)
 {
   pin = pinInc;
-  pinMode(pin, modeInc == PULLUP_INTERNAL? INPUT_PULLUP : INPUT);
+  pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
   isPULLUP = (modeInc == PULLDOWN ? false : true);
 }
 
 void loop()
 {
   static uint16_t buttonCount = 0;
-  switch(getState())
+  switch (getState())
   {
     case 0: break;
     case 1: Serial.println("Button pressed " + String(++buttonCount) + " times."); break;
@@ -39,6 +39,7 @@ uint8_t getState()
 {
   uint8_t stateToReturn = 0;
   static uint32_t debounceTime = 0;
+  static uint32_t startHoldTime = 0;
   bool buttonState = digitalRead(8);
   static bool lastButtonState = true;
   if (lastButtonState != buttonState)
@@ -47,6 +48,7 @@ uint8_t getState()
     {
       lastButtonState = buttonState;
       if (buttonState == true) stateToReturn = 1;
+      else stateToReturn = 4;
     }
     debounceTime = millis();
   }

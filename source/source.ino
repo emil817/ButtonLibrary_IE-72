@@ -40,6 +40,7 @@ uint8_t getState()
   uint8_t stateToReturn = 0;
   static uint32_t debounceTime = 0;
   static uint32_t startHoldTime = 0;
+  bool Hold = 0;
   bool buttonState = digitalRead(8);
   static bool lastButtonState = true;
   if (lastButtonState != buttonState)
@@ -47,8 +48,27 @@ uint8_t getState()
     if (millis() - debounceTime > debounceTimeValue)
     {
       lastButtonState = buttonState;
-      if (buttonState == true) stateToReturn = 1;
-      else stateToReturn = 4;
+      if (buttonState == true)
+      {
+        stateToReturn = 1;
+        if (Hold == 0) {
+          startHoldTime = millis();
+          Hold = 1;
+        }
+        else
+        {
+          if (millis() - startHoldTime >= holdTimevalue)
+          {
+            Hold = 0;
+            stateToReturn = 2;
+          }
+        }
+      }
+      else
+      {
+        stateToReturn = 4;
+        Hold = 0;
+      }
     }
     debounceTime = millis();
   }

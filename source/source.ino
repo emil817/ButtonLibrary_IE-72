@@ -5,7 +5,7 @@
 void setup()
 {
   Serial.begin(115200);
-  begin(38, PULLDOWN);
+  begin(8, PULLDOWN);
 }
 
 uint8_t pin;

@@ -5,14 +5,14 @@
 void setup()
 {
   Serial.begin(115200);
-  begin(8, PULLUP);
+  begin(38, PULLDOWN);
 }
 
 uint8_t pin;
 uint8_t isPULLUP;
 
 uint8_t debounceTimeValue = 50;
-uint16_t holdTimevalue = 500;
+uint16_t holdTimeValue = 500;
 uint16_t holdRepeatTimeValue = 500;
 
 void begin(uint8_t pinInc, uint8_t modeInc)
@@ -39,38 +39,50 @@ uint8_t getState()
 {
   uint8_t stateToReturn = 0;
   static uint32_t debounceTime = 0;
+  
+  static bool Hold = 0;
   static uint32_t startHoldTime = 0;
-  bool Hold = 0;
-  bool buttonState = digitalRead(8);
+  static bool holdRepeat = 0;
+  static uint32_t startHoldRepeatTime = 0;
+
   static bool lastButtonState = true;
+
+  bool buttonState = digitalRead(pin);
+
   if (lastButtonState != buttonState)
   {
     if (millis() - debounceTime > debounceTimeValue)
     {
       lastButtonState = buttonState;
-      if (buttonState == true)
+      if (buttonState == isPULLUP)
       {
         stateToReturn = 1;
-        if (Hold == 0) {
-          startHoldTime = millis();
-          Hold = 1;
-        }
-        else
-        {
-          if (millis() - startHoldTime >= holdTimevalue)
-          {
-            Hold = 0;
-            stateToReturn = 2;
-          }
-        }
+        Hold = 1;
+        startHoldTime = millis();
       }
       else
       {
         stateToReturn = 4;
         Hold = 0;
+        holdRepeat = 0;
       }
     }
     debounceTime = millis();
+  }
+  if (buttonState == isPULLUP)
+  {
+    if (millis() - startHoldTime >= holdTimeValue && Hold == 1)
+    {
+      Hold = 0;
+      stateToReturn = 2;
+      startHoldRepeatTime = millis();
+      holdRepeat = 1;
+    }
+    if (millis() - startHoldRepeatTime >= holdRepeatTimeValue && holdRepeat == 1)
+    {
+      startHoldRepeatTime = millis();
+      stateToReturn = 3;
+    }
   }
   return stateToReturn;
 }

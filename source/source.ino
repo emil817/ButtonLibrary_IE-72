@@ -99,16 +99,3 @@ void setHoldRepeatTime(byte InTime)
 {
   holdRepeatTimeValue = InTime;
 }
-
-/*
-bool isPULLUP()
-{
-  return isPULLUP;
-}
-bool isPULLUP_INTERNAL()
-{
-  return isPULLUP_INTERNAL;
-}
-
-
-*/

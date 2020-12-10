@@ -2,14 +2,14 @@
 #include <Arduino.h>
 
 
-IE-72_Button::IE-72_Button(byte pinInc, uint8_t modeInc)
+IE_72_Button::IE_72_Button(byte pinInc, uint8_t modeInc)
 {
 	pin = pinInc;
   	pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
   	isPULLUP = (modeInc == PULLDOWN ? false : true);
 }
 
-IE-72_Button::uint8_t getState()
+uint8_t IE_72_Button::getState()
 {
 
   uint8_t stateToReturn = 0;
@@ -54,16 +54,51 @@ IE-72_Button::uint8_t getState()
   return stateToReturn;
 }
 
-IE-72_Button::void setDebounceTime(byte InTime)
+void IE_72_Button::setDebounceTime(byte InTime)
 {
   debounceTimeValue = InTime;
 }
-IE-72_Button::void setHoldTime(byte InTime)
+void IE_72_Button::setHoldTime(byte InTime)
 {
   holdTimeValue = InTime;
 }
-IE-72_Button::void setHoldRepeatTime(byte InTime)
+void IE_72_Button::setHoldRepeatTime(byte InTime)
 {
   holdRepeatTimeValue = InTime;
 }
 
+bool IE_72_Button::isPress()
+{
+	if(IE_72_Button::getState() == 1)
+	{
+	return  true;
+	}
+	else
+	{
+	return false;
+	}
+}
+
+bool IE_72_Button::isHold()
+{
+	if(IE_72_Button::getState() == 2)
+	{
+	return  true;
+	}
+	else
+	{
+	return false;
+	}
+}
+
+bool IE_72_Button::isRelease()
+{
+	if(IE_72_Button::getState() == 4)
+	{
+	return  true;
+	}
+	else
+	{
+	return false;
+	}
+}

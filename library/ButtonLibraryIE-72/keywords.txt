@@ -1,10 +1,14 @@
+
+######
+
 ButtonLibraryIE-72 KEYWORD1
+IE_72_Button       KEYWORD1
 
-getState KEYWORD2
-setDebounceTime KEYWORD2
-setHoldTime KEYWORD2
-setHoldRepeatTime KEYWORD2
+getState           KEYWORD2
+setDebounceTime    KEYWORD2
+setHoldTime        KEYWORD2
+setHoldRepeatTime  KEYWORD2
 
-PULLUP LITERAL1
-PULLDOWN LITERAL1
-PULLUP_INTERNAL LITERAL1
+PULLUP             LITERAL1
+PULLDOWN           LITERAL1
+PULLUP_INTERNAL    LITERAL1

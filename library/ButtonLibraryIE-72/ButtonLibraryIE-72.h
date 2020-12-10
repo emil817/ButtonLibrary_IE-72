@@ -5,14 +5,19 @@
 #define PULLDOWN 1
 #define PULLUP_INTERNAL 2
 
-class IE-72_Button {
+class IE_72_Button {
 public:
-	IE-72_Button(byte pinInc, uint8_t modeInc);
+	IE_72_Button(byte pinInc, uint8_t modeInc);
 	uint8_t getState();
 
 	void setDebounceTime(byte InTime);
 	void setHoldTime(byte InTime);
 	void setHoldRepeatTime(byte InTime);
+	
+	bool isPress();
+	bool isHold();
+	bool isRelease();
+	
 private:
 	uint8_t pin;
 	uint8_t isPULLUP;
@@ -30,6 +35,5 @@ private:
 
   	bool lastButtonState = true;
 
-}
-
+};
 

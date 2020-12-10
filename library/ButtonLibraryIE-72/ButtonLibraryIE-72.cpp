@@ -2,31 +2,17 @@
 #include <Arduino.h>
 
 
-uint8_t pin;
-uint8_t isPULLUP;
-
-uint8_t debounceTimeValue = 50;
-uint16_t holdTimeValue = 500;
-uint16_t holdRepeatTimeValue = 500;
-
-void begin(uint8_t pinInc, uint8_t modeInc)
+IE-72_Button::IE-72_Button(byte pinInc, uint8_t modeInc)
 {
-  pin = pinInc;
-  pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
-  isPULLUP = (modeInc == PULLDOWN ? false : true);
+	pin = pinInc;
+  	pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
+  	isPULLUP = (modeInc == PULLDOWN ? false : true);
 }
 
-uint8_t getState()
+IE-72_Button::uint8_t getState()
 {
-  uint8_t stateToReturn = 0;
-  static uint32_t debounceTime = 0;
-  
-  static bool Hold = 0;
-  static uint32_t startHoldTime = 0;
-  static bool holdRepeat = 0;
-  static uint32_t startHoldRepeatTime = 0;
 
-  static bool lastButtonState = true;
+  uint8_t stateToReturn = 0;
 
   bool buttonState = digitalRead(pin);
 
@@ -68,15 +54,15 @@ uint8_t getState()
   return stateToReturn;
 }
 
-void setDebounceTime(byte InTime)
+IE-72_Button::void setDebounceTime(byte InTime)
 {
   debounceTimeValue = InTime;
 }
-void setHoldTime(byte InTime)
+IE-72_Button::void setHoldTime(byte InTime)
 {
   holdTimeValue = InTime;
 }
-void setHoldRepeatTime(byte InTime)
+IE-72_Button::void setHoldRepeatTime(byte InTime)
 {
   holdRepeatTimeValue = InTime;
 }

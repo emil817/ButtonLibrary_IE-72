@@ -1,8 +1,8 @@
 #include <ButtonLibraryIE-72.h>
 
+IE_72_Button Button(8,1);
 void setup() {
-  // put your setup code here, to run once:
-
+  Button.getState();
 }
 
 void loop() {

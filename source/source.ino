@@ -14,6 +14,7 @@ uint8_t isPULLUP;
 uint8_t debounceTimeValue = 50;
 uint16_t holdTimeValue = 1000;
 uint16_t holdRepeatTimeValue = 500;
+bool ReturnPressBeforeHold = false;
 
 void begin(uint8_t pinInc, uint8_t modeInc)
 {
@@ -57,7 +58,10 @@ uint8_t getState()
       lastButtonState = buttonState;
       if (buttonState == true)
       {
-        
+        if(ReturnPressBeforeHold)
+        {
+          stateToReturn = 1;
+        }
         startHold = 1;
         startHoldTime = millis();
       }
@@ -67,7 +71,7 @@ uint8_t getState()
         {
           stateToReturn = 4;
         }
-        else
+        else if(ReturnPressBeforeHold != true)
         {
           stateToReturn = 1;
         }
@@ -108,4 +112,8 @@ void setHoldTime(byte InTime)
 void setHoldRepeatTime(byte InTime)
 {
   holdRepeatTimeValue = InTime;
+}
+void setReturnPressBeforeHold(bool In)
+{
+  ReturnPressBeforeHold = In;
 }

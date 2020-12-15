@@ -86,7 +86,7 @@ void Button::setReturnPressBeforeHold(bool In)
 
 bool Button::isPress()
 {
-  if (Button::getState() == 1)
+  if (holding == 1 || startHold == 1)
   {
     return  true;
   }
@@ -96,9 +96,9 @@ bool Button::isPress()
   }
   }
 
-  bool Button::isHold()
-  {
-  if (holding == 2)
+bool Button::isHold()
+{
+  if (holding == 1)
   {
     return  true;
   }
@@ -106,9 +106,20 @@ bool Button::isPress()
   {
     return false;
   }
+}
+bool Button::isHoldRepeated()
+{
+  if (Button::getState() == 3)
+  {
+    return  true;
   }
+  else
+  {
+    return false;
+  }
+}
 
-  bool Button::isRelease()
+bool Button::isRelease()
   {
   if (Button::getState() == 4)
   {

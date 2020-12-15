@@ -1,4 +1,4 @@
-ButtonLibraryIE-72	KEYWORD1
+ButtonLibrary		KEYWORD1
 IE_72_Button       	KEYWORD1
 getState           	KEYWORD2
 setDebounceTime    	KEYWORD2

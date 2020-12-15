@@ -1,46 +1,57 @@
-#include "ButtonLibraryIE-72.h"
+#include "ButtonLibrary.h"
 #include <Arduino.h>
 
 
-IE_72_Button::IE_72_Button(byte pinInc, uint8_t modeInc)
+Button::Button(byte pinInc, uint8_t modeInc)
 {
-	pin = pinInc;
-  	pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
-  	isPULLUP = (modeInc == PULLDOWN ? false : true);
+  pin = pinInc;
+  pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
+  isPULLUP = (modeInc == PULLDOWN ? false : true);
 }
 
-uint8_t IE_72_Button::getState()
+uint8_t Button::getState()
 {
 
   uint8_t stateToReturn = 0;
-
-  bool buttonState = digitalRead(pin);
+  bool buttonState = isPULLUP ? !digitalRead(pin) : digitalRead(pin);
 
   if (lastButtonState != buttonState)
   {
     if (millis() - debounceTime > debounceTimeValue)
     {
       lastButtonState = buttonState;
-      if (buttonState == isPULLUP)
+      if (buttonState == true)
       {
-        stateToReturn = 1;
-        Hold = 1;
+        if (ReturnPressBeforeHold)
+        {
+          stateToReturn = 1;
+        }
+        startHold = 1;
         startHoldTime = millis();
       }
       else
       {
-        stateToReturn = 4;
-        Hold = 0;
+        if (holding == 1)
+        {
+          stateToReturn = 4;
+        }
+        else if (ReturnPressBeforeHold != true)
+        {
+          stateToReturn = 1;
+        }
+        startHold = 0;
+        holding = 0;
         holdRepeat = 0;
       }
     }
     debounceTime = millis();
   }
-  if (buttonState == isPULLUP)
+  if (buttonState == true)
   {
-    if (millis() - startHoldTime >= holdTimeValue && Hold == 1)
+    if (millis() - startHoldTime >= holdTimeValue && startHold == 1)
     {
-      Hold = 0;
+      startHold = 0;
+      holding = 1;
       stateToReturn = 2;
       startHoldRepeatTime = millis();
       holdRepeat = 1;
@@ -54,51 +65,57 @@ uint8_t IE_72_Button::getState()
   return stateToReturn;
 }
 
-void IE_72_Button::setDebounceTime(byte InTime)
+void Button::setDebounceTime(byte InTime)
 {
   debounceTimeValue = InTime;
 }
-void IE_72_Button::setHoldTime(byte InTime)
+void Button::setHoldTime(byte InTime)
 {
   holdTimeValue = InTime;
 }
-void IE_72_Button::setHoldRepeatTime(byte InTime)
+void Button::setHoldRepeatTime(byte InTime)
 {
   holdRepeatTimeValue = InTime;
 }
 
-bool IE_72_Button::isPress()
+void Button::setReturnPressBeforeHold(bool In)
 {
-	if(IE_72_Button::getState() == 1)
-	{
-	return  true;
-	}
-	else
-	{
-	return false;
-	}
+  ReturnPressBeforeHold = In;
 }
 
-bool IE_72_Button::isHold()
-{
-	if(IE_72_Button::getState() == 2)
-	{
-	return  true;
-	}
-	else
-	{
-	return false;
-	}
-}
 
-bool IE_72_Button::isRelease()
-{
-	if(IE_72_Button::getState() == 4)
-	{
-	return  true;
-	}
-	else
-	{
-	return false;
-	}
-}
+/*bool Button::isPress()
+  {
+  if (Button::getState() == 1)
+  {
+    return  true;
+  }
+  else
+  {
+    return false;
+  }
+  }
+
+  bool Button::isHold()
+  {
+  if (Button::getState() == 2)
+  {
+    return  true;
+  }
+  else
+  {
+    return false;
+  }
+  }
+
+  bool Button::isRelease()
+  {
+  if (Button::getState() == 4)
+  {
+    return  true;
+  }
+  else
+  {
+    return false;
+  }
+  }*/

@@ -84,8 +84,8 @@ void Button::setReturnPressBeforeHold(bool In)
 }
 
 
-/*bool Button::isPress()
-  {
+bool Button::isPress()
+{
   if (Button::getState() == 1)
   {
     return  true;
@@ -98,7 +98,7 @@ void Button::setReturnPressBeforeHold(bool In)
 
   bool Button::isHold()
   {
-  if (Button::getState() == 2)
+  if (holding == 2)
   {
     return  true;
   }
@@ -118,4 +118,4 @@ void Button::setReturnPressBeforeHold(bool In)
   {
     return false;
   }
-  }*/
+}

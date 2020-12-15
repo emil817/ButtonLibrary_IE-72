@@ -6,6 +6,7 @@ void setup()
 {
   Serial.begin(115200);
   begin(8, PULLDOWN);
+  setReturnPressBeforeHold(true);
 }
 
 uint8_t pin;

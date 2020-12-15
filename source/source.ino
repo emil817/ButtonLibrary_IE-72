@@ -6,14 +6,16 @@ void setup()
 {
   Serial.begin(115200);
   begin(8, PULLDOWN);
+  setReturnPressBeforeHold(true);
 }
 
 uint8_t pin;
 uint8_t isPULLUP;
 
 uint8_t debounceTimeValue = 50;
-uint16_t holdTimeValue = 500;
+uint16_t holdTimeValue = 1000;
 uint16_t holdRepeatTimeValue = 500;
+bool ReturnPressBeforeHold = false;
 
 void begin(uint8_t pinInc, uint8_t modeInc)
 {
@@ -40,40 +42,53 @@ uint8_t getState()
   uint8_t stateToReturn = 0;
   static uint32_t debounceTime = 0;
   
-  static bool Hold = 0;
+  static bool holding = 0;
+  static bool startHold = 0;
   static uint32_t startHoldTime = 0;
   static bool holdRepeat = 0;
   static uint32_t startHoldRepeatTime = 0;
 
-  static bool lastButtonState = true;
+  static bool lastButtonState = false;
 
-  bool buttonState = digitalRead(pin);
+  bool buttonState = isPULLUP ? !digitalRead(pin) : digitalRead(pin);
 
   if (lastButtonState != buttonState)
   {
     if (millis() - debounceTime > debounceTimeValue)
     {
       lastButtonState = buttonState;
-      if (buttonState == isPULLUP)
+      if (buttonState == true)
       {
-        stateToReturn = 1;
-        Hold = 1;
+        if(ReturnPressBeforeHold)
+        {
+          stateToReturn = 1;
+        }
+        startHold = 1;
         startHoldTime = millis();
       }
       else
       {
-        stateToReturn = 4;
-        Hold = 0;
+        if(holding == 1)
+        {
+          stateToReturn = 4;
+        }
+        else if(ReturnPressBeforeHold != true)
+        {
+          stateToReturn = 1;
+        }
+        startHold = 0;
+        holding = 0;
         holdRepeat = 0;
       }
     }
     debounceTime = millis();
   }
-  if (buttonState == isPULLUP)
+  if (buttonState == true)
   {
-    if (millis() - startHoldTime >= holdTimeValue && Hold == 1)
+    if (millis() - startHoldTime >= holdTimeValue && startHold == 1)
     {
-      Hold = 0;
+      startHold = 0;
+      holding = 1;
       stateToReturn = 2;
       startHoldRepeatTime = millis();
       holdRepeat = 1;
@@ -98,4 +113,8 @@ void setHoldTime(byte InTime)
 void setHoldRepeatTime(byte InTime)
 {
   holdRepeatTimeValue = InTime;
+}
+void setReturnPressBeforeHold(bool In)
+{
+  ReturnPressBeforeHold = In;
 }

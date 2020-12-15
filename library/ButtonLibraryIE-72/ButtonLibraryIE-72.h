@@ -5,35 +5,37 @@
 #define PULLDOWN 1
 #define PULLUP_INTERNAL 2
 
-class IE_72_Button {
-public:
-	IE_72_Button(byte pinInc, uint8_t modeInc);
-	uint8_t getState();
+class Button {
+  public:
+    Button(byte pinInc, uint8_t modeInc);
+    uint8_t getState();
 
-	void setDebounceTime(byte InTime);
-	void setHoldTime(byte InTime);
-	void setHoldRepeatTime(byte InTime);
-	
-	bool isPress();
-	bool isHold();
-	bool isRelease();
-	
-private:
-	uint8_t pin;
-	uint8_t isPULLUP;
+    void setDebounceTime(byte InTime);
+    void setHoldTime(byte InTime);
+    void setHoldRepeatTime(byte InTime);
+    void setReturnPressBeforeHold(bool In);
+    
+    bool isPress();
+    bool isHold();
+    bool isRelease();
 
-	uint8_t debounceTimeValue = 50;
-	uint16_t holdTimeValue = 500;
-	uint16_t holdRepeatTimeValue = 500;
-	
-	uint32_t debounceTime = 0;
-  
-  	bool Hold = 0;
-  	uint32_t startHoldTime = 0;
-  	bool holdRepeat = 0;
-  	uint32_t startHoldRepeatTime = 0;
+  private:
+    uint8_t pin;
+    uint8_t isPULLUP;
 
-  	bool lastButtonState = true;
+    uint8_t debounceTimeValue = 50;
+    uint16_t holdTimeValue = 500;
+    uint16_t holdRepeatTimeValue = 500;
+    bool ReturnPressBeforeHold = false;
+
+    uint32_t debounceTime = 0;
+
+    bool holding = 0;
+    bool startHold = 0;
+    uint32_t startHoldTime = 0;
+    bool holdRepeat = 0;
+    uint32_t startHoldRepeatTime = 0;
+
+    bool lastButtonState = false;
 
 };
-

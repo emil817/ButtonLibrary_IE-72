@@ -1,11 +1,21 @@
-#include <ButtonLibraryIE-72.h>
+#include "ButtonLibrary.h"
 
-IE_72_Button Button(8,1);
+Button Button1(8,PULLUP);
+
 void setup() {
-  Button.getState();
+  Serial.begin(115200);
+  Serial.println("Start");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  static uint16_t buttonCount = 0;
+  switch (Button1.getState())
+  {
+    case 0: break;
+    case 1: Serial.println("Button pressed " + String(++buttonCount) + " times."); break;
+    case 2: Serial.println("Button holded."); break;
+    case 3: Serial.println("Hold repeated."); break;
+    case 4: Serial.println("Button released."); break;
+  }
 
 }

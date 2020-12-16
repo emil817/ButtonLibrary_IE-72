@@ -6,6 +6,7 @@ setDebounceTime    		KEYWORD2
 setHoldTime        		KEYWORD2
 setHoldRepeatTime  		KEYWORD2
 setReturnPressBeforeHold	KEYWORD2
+ReturnReleaseAfterPress		KEYWORD2
 
 isPressNow  			KEYWORD2
 isHoldNow  			KEYWORD2

@@ -15,9 +15,8 @@ class Button {
     void setHoldRepeatTime(byte InTime);
     void setReturnPressBeforeHold(bool In);
     
-    bool isPress();
-    bool isHold();
-    bool isRelease();
+    bool isPressNow();
+    bool isHoldNow();
 
   private:
     uint8_t pin;

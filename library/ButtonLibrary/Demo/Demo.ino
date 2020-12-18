@@ -1,6 +1,6 @@
 #include <ButtonLibrary.h>
 
-Button Button1(10,PULLUP);
+Button Button1(2,PULLUP);
 
 void setup() {
   Button1.setReturnPressBeforeHold(false);

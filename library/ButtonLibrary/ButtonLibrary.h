@@ -14,7 +14,7 @@ class Button {
     void setHoldTime(byte InTime);
     void setHoldRepeatTime(byte InTime);
     void setReturnPressBeforeHold(bool In);
-    void ReturnReleaseAfterPress(bool In);
+    void ReturnReleaseAfterPressF(bool In);
     
     bool isPressNow();
     bool isHoldNow();

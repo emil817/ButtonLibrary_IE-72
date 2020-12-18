@@ -83,7 +83,7 @@ void Button::setReturnPressBeforeHold(bool In)
   ReturnPressBeforeHold = In;
 }
 
-void Button::setReturnReleaseAfterPress(bool In)
+void Button::setReturnReleaseAfterPressF(bool In)
 {
   ReturnReleaseAfterPress = In;
 }

@@ -14,7 +14,7 @@ class Button {
     void setHoldTime(byte InTime);
     void setHoldRepeatTime(byte InTime);
     void setReturnPressBeforeHold(bool In);
-    void ReturnReleaseAfterPressF(bool In);
+    void setReturnReleaseAfterPress(bool In);
     
     bool isPressNow();
     bool isHoldNow();
@@ -27,7 +27,7 @@ class Button {
     uint16_t holdTimeValue = 500;
     uint16_t holdRepeatTimeValue = 500;
     bool ReturnPressBeforeHold = false;
-    bool ReturnReleaseAfterPress = false;
+    bool ReturnReleaseAfterPressV = false;
 
     uint32_t debounceTime = 0;
 

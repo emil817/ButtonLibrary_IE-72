@@ -31,7 +31,7 @@ uint8_t Button::getState()
       }
       else
       {
-        if ((holding == 1 && ReturnReleaseAfterPress == 1) || (ReturnReleaseAfterPress != 1))
+        if ((holding == 1) || (ReturnReleaseAfterPressV == 1))
         {
           stateToReturn = 4;
         }
@@ -83,9 +83,9 @@ void Button::setReturnPressBeforeHold(bool In)
   ReturnPressBeforeHold = In;
 }
 
-void Button::setReturnReleaseAfterPressF(bool In)
+void Button::setReturnReleaseAfterPress(bool In)
 {
-  ReturnReleaseAfterPress = In;
+  ReturnReleaseAfterPressV = In;
 }
 
 

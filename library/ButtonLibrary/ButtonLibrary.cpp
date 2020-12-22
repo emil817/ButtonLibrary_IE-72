@@ -48,7 +48,7 @@ uint8_t Button::getState()
   }
   if (buttonState == true)
   {
-    if (millis() - startHoldTime >= holdTimeValue && startHold == 1)
+    if ((millis() - startHoldTime >= holdTimeValue) && startHold == 1)
     {
       startHold = 0;
       holding = 1;
@@ -56,7 +56,7 @@ uint8_t Button::getState()
       startHoldRepeatTime = millis();
       holdRepeat = 1;
     }
-    if (millis() - startHoldRepeatTime >= holdRepeatTimeValue && holdRepeat == 1)
+    if ((millis() - startHoldRepeatTime >= holdRepeatTimeValue) && holdRepeat == 1)
     {
       startHoldRepeatTime = millis();
       stateToReturn = 3;

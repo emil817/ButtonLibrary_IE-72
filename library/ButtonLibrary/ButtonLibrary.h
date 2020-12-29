@@ -11,8 +11,8 @@ class Button {
     uint8_t getState();
 
     void setDebounceTime(byte InTime);
-    void setHoldTime(byte InTime);
-    void setHoldRepeatTime(byte InTime);
+    void setHoldTime(int InTime);
+    void setHoldRepeatTime(int byte InTime);
     void setReturnPressBeforeHold(bool In);
     void setReturnReleaseAfterPress(bool In);
     

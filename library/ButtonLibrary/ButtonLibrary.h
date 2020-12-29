@@ -12,7 +12,7 @@ class Button {
 
     void setDebounceTime(byte InTime);
     void setHoldTime(int InTime);
-    void setHoldRepeatTime(int byte InTime);
+    void setHoldRepeatTime(int InTime);
     void setReturnPressBeforeHold(bool In);
     void setReturnReleaseAfterPress(bool In);
     

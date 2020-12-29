@@ -69,11 +69,11 @@ void Button::setDebounceTime(byte InTime)
 {
   debounceTimeValue = InTime;
 }
-void Button::setHoldTime(byte InTime)
+void Button::setHoldTime(int InTime)
 {
   holdTimeValue = InTime;
 }
-void Button::setHoldRepeatTime(byte InTime)
+void Button::setHoldRepeatTime(int InTime)
 {
   holdRepeatTimeValue = InTime;
 }

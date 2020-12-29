@@ -5,7 +5,7 @@
 void setup()
 {
   Serial.begin(115200);
-  begin(8, PULLDOWN);
+  begin(8, PULLUP);
   setReturnPressBeforeHold(true);
 }
 
@@ -16,12 +16,14 @@ uint8_t debounceTimeValue = 50;
 uint16_t holdTimeValue = 1000;
 uint16_t holdRepeatTimeValue = 500;
 bool ReturnPressBeforeHold = false;
+bool ReturnReleaseAfterPressV = false;
 
 void begin(uint8_t pinInc, uint8_t modeInc)
 {
   pin = pinInc;
   pinMode(pin, modeInc == PULLUP_INTERNAL ? INPUT_PULLUP : INPUT);
   isPULLUP = (modeInc == PULLDOWN ? false : true);
+  setHoldTime(5000);
 }
 
 void loop()
@@ -39,7 +41,6 @@ void loop()
 
 uint8_t getState()
 {
-  uint8_t stateToReturn = 0;
   static uint32_t debounceTime = 0;
   
   static bool holding = 0;
@@ -48,9 +49,9 @@ uint8_t getState()
   static bool holdRepeat = 0;
   static uint32_t startHoldRepeatTime = 0;
 
-  static bool lastButtonState = false;
-
+  uint8_t stateToReturn = 0;
   bool buttonState = isPULLUP ? !digitalRead(pin) : digitalRead(pin);
+  static bool lastButtonState = false;
 
   if (lastButtonState != buttonState)
   {
@@ -59,7 +60,7 @@ uint8_t getState()
       lastButtonState = buttonState;
       if (buttonState == true)
       {
-        if(ReturnPressBeforeHold)
+        if (ReturnPressBeforeHold)
         {
           stateToReturn = 1;
         }
@@ -68,11 +69,11 @@ uint8_t getState()
       }
       else
       {
-        if(holding == 1)
+        if ((holding == 1) || (ReturnReleaseAfterPressV == 1))
         {
           stateToReturn = 4;
         }
-        else if(ReturnPressBeforeHold != true)
+        else if (ReturnPressBeforeHold != true)
         {
           stateToReturn = 1;
         }
@@ -85,7 +86,7 @@ uint8_t getState()
   }
   if (buttonState == true)
   {
-    if (millis() - startHoldTime >= holdTimeValue && startHold == 1)
+    if ((millis() - startHoldTime >= holdTimeValue) && startHold == 1)
     {
       startHold = 0;
       holding = 1;
@@ -93,7 +94,7 @@ uint8_t getState()
       startHoldRepeatTime = millis();
       holdRepeat = 1;
     }
-    if (millis() - startHoldRepeatTime >= holdRepeatTimeValue && holdRepeat == 1)
+    if ((millis() - startHoldRepeatTime >= holdRepeatTimeValue) && holdRepeat == 1)
     {
       startHoldRepeatTime = millis();
       stateToReturn = 3;
@@ -106,11 +107,11 @@ void setDebounceTime(byte InTime)
 {
   debounceTimeValue = InTime;
 }
-void setHoldTime(byte InTime)
+void setHoldTime(int InTime)
 {
   holdTimeValue = InTime;
 }
-void setHoldRepeatTime(byte InTime)
+void setHoldRepeatTime(int InTime)
 {
   holdRepeatTimeValue = InTime;
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <Arduino.h>
 
+#pragma message "Button library by Emil817"
+
 #define PULLUP 0
 #define PULLDOWN 1
 #define PULLUP_INTERNAL 2

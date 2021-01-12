@@ -2,17 +2,20 @@
 
 Button Button1(2,PULLUP);
 
-void setup() {
+void setup()
+{
   Button1.setReturnPressBeforeHold(false);
   Button1.setDebounceTime(50);
   Button1.setHoldTime(1000);
   Button1.setHoldRepeatTime(500);
+  Button1.setReturnReleaseAfterPress(false);
   
   Serial.begin(115200);
   Serial.println("Start");
 }
 
-void loop() {
+void loop()
+{
   static uint16_t buttonCount = 0;
 
 
